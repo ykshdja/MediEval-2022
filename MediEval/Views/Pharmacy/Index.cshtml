@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Pharmacy>
+
+@{
+    ViewData["Title"] = "Available Pharmacies";
+}
+
+<!Doctype html>
+<html>
+<head>
+    <title>Pharmacy</title>
+ 
+    <style>
+
+        table {
+            border-spacing: 5px 1rem;
+        }
+
+        .tab {
+            margin-left: 2.5em
+        }
+        .center{
+
+        text-align: center;
+        margin: 100px;
+        }
+        
+        
+
+    </style>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <h2 style="text-align:center">Welcome to the Pharmacist View</h2>
+    <div class="row" style="margin-top:50px">
+        <div class="d-flex align-items-center justify-content-center">
+            <table cellspacing="10">
+                <thead>
+                    <tr>
+                        <th id="PharmaName">
+                            <i class='fas fa-pills' style='font-size:48px;color:seagreen'></i>
+                        </th>
+                        <th id="PharmaAddress">
+                            <i class='fas fa-clinic-medical' style='font-size:48px;color:seagreen'></i>
+                        </th>
+                        <th id="PharmaPhone">
+                            <i class='fas fa-phone' style='font-size:48px;color:seagreen'></i>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.PharmName)</th>
+                        <th>@Html.DisplayNameFor(model => model.PharmAddress)</th>
+                        <th>@Html.DisplayNameFor(model => model.PharmPhone)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model)
+                    {
+                        <tr>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => i.PharmName)
+                                &nbsp;
+                                &nbsp;
+                            </td>
+
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => i.PharmAddress)
+                                &nbsp;
+                                &nbsp;
+                            </td>
+
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => i.PharmPhone)
+                                &nbsp;
+                                &nbsp;
+                            </td>
+
+                            <td class="align-middle" style="">
+                                <a class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i>Edit </a> &nbsp;
+                                <a class="btn btn-outline-info"><i class="bi bi-eye"></i>Details </a> &nbsp;
+                                <a class="btn btn-danger text-white"><i class="bi bi-trash"></i>Delete </a>
+                            </td>
+
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="center  text-white">
+        <a asp-controller="Pharmacy" asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Add New
+        </a>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
