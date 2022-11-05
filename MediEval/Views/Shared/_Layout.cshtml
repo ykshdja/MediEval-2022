@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <style>
+
      
         #navbar-div{
             background: #1e5100;
@@ -53,6 +54,7 @@
 
         body {
             background: #ddd;
+            margin-bottom: 50px;
         }
 
         .form-control-borderless {
@@ -76,6 +78,15 @@
                 outline: none;
                 box-shadow: none;
             }
+
+
+           .shopsymbol{
+               text-align:right;
+           }
+
+        .login-btn{
+            margin-right:10px;
+        }
     </style>
     <script>
         
@@ -97,7 +108,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] MediEval</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="icon" href="~/Images/icon.png" type="image/x-icon">
+    <link rel="icon" href="~/Images/icon-title.png" type="image/x-icon">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MediEval.styles.css" asp-append-version="true" />
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
@@ -105,9 +116,21 @@
 </head>
 <body>
     <header>
-        <div style="margin-left:50px">
-            <span><img src="~/Images/logo.png" alt="Medi-Eval Logo" /></span>
+        <div>
+            <div class ="d-flex justify-content-start">
+                <span><img src="~/Images/logo.png" alt="Medi-Eval Logo" /></span>
+            </div>
+            <div class="d-flex justify-content-end">
+                <form class="form-inline my-2 my-lg-0" asp-controller="Medicine" asp-action="Filter" style="padding-right: 45px;">
+                    <input name="searchString" type="text" class="form-control" placeholder="Search for a Medicine " aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+                        <i class="bi bi-search"></i>
+                        </button>
+                </form>
+            </div>
+         
         </div>
+       
         <div id="navbar-div">
             <nav class="navbar navbar-inverse navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
                 <div class="container-fluid">
@@ -145,7 +168,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <li><a class="dropdown-item" asp-controller="Medicine" asp-action="Index"><i class="bi bi-capsule-pill"></i> Medicine</a></li>
                                         <li><a class="dropdown-item" asp-controller="Pharmacy" asp-action="Index"><i class="bi bi-prescription"></i> Pharmacy</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Order" asp-action="Index"><i class="bi bi-box-seam-fill"></i> Orders</a></li>
+                                        <li><a class="dropdown-item" asp-controller="PharmacyBrand" asp-action="Index"><i class="bi bi-bag-plus-fill"></i> Brands</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -153,13 +176,54 @@
 
                         </ul>
 
-                        <form class="form-inline my-2 my-lg-0" asp-controller="Home" asp-action="Filter" style="padding-right: 25px;">
-                            <input name="searchString" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
-                         
+                        <ul class="navbar-nav">
+                            @await Component.InvokeAsync("ShoppingCartSummary")
+                        </ul>
+
+                        <partial name="_Identity.cshtml" />
+
+                        <div class="login-btn">
+                            <a class="btn btn-outline-light my-2 my-sm-0" asp-controller="Account" asp-action="Login">
+                                <i class="bi bi-box-arrow-in-right"></i> Log in
+                            </a>
+
+                            <a class="btn btn-outline-light my-2 my-sm-0" asp-controller="Account" asp-action="Register">
+                                <i class="bi bi-person-plus"></i> Register
+                            </a>
+
+
+                        </div>
+
+                        <span style="padding: 5px;"></span>
+
+                        @*User profile section*@
+                        <div class="dropdown">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-person-badge"></i> Hello User
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="profile-btn">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
+                                        <i class="bi bi-list"></i> Orders
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        @**
+                            Log out
+                        **@
+
+                        <span style="padding: 5px;"></span>
+                        <form asp-controller="Account" asp-action="Logout">
+                            <button class="btn btn-outline-danger my-2 my-sm-0">
+                                <i class="bi bi-box-arrow-in-right"></i> Log out
+                            </button>
                         </form>
-                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+
+
                     </div>
-                  
                 </div>
             </nav>
         </div>
@@ -169,15 +233,16 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2022 - MediEval - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

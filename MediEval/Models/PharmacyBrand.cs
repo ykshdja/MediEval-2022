@@ -1,29 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MediEval.Data.Base;
+using MediEval.Data.Enums;
 using System.ComponentModel.DataAnnotations;
-using MediEval.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 
 namespace MediEval.Models
 {
-    public class PharmacyBrand
+    public class PharmacyBrand :IEntityBase
     {
 
         [Key]
-        public int Id { get; set; }
+        public int ID { get; set; }
 
-        [Required]
-        [Display(Name = "Neo sporin")]
+        [Required(ErrorMessage ="Name is Required")]
+        [Display(Name = "Name")]
+        
         public string Name { get; set; }
 
-        [Display(Name = "Pain reliever")]
-        public string? Description { get; set; }
+        [Required(ErrorMessage = "Dosage Form is Required")]
+        [Display(Name = "Dosage Form")]
+        public string? DosageForm { get; set; }
 
+
+        [Display(Name = "NDC Code")]
+        [Required(ErrorMessage = "NDC Code is Required")]
+        public string NDC_Code { get; set; }
+        [Required(ErrorMessage = "Category is Required")]
+        [Display(Name = "Category")]
+
+        public MedicineCategory category { get; set; }
         
+
+        //Relationship
+        public List<Medicine> medicines { get; set; }
+
     }
 }

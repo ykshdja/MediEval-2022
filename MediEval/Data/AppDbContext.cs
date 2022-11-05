@@ -7,10 +7,11 @@ using MediEval.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MediEval.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -24,9 +25,8 @@ namespace MediEval.Data
                 pm.Medicine_ID
             });
 
-            modelBuilder.Entity<Pharmacy_Medicine>().HasOne(p => p.pharmacy).WithMany(pm => pm.pharmacy_medicine).HasForeignKey(m => m.Medicine_ID);
-            modelBuilder.Entity<Pharmacy_Medicine>().HasOne(m=>m.medicine).WithMany(pm => pm.pharmacy_medicine).HasForeignKey(p => p.Pharmacy_ID);
-
+            modelBuilder.Entity<Pharmacy_Medicine>().HasOne(p => p.pharmacy).WithMany(pm => pm.pharmacy_medicine).HasForeignKey(m => m.Pharmacy_ID);
+            modelBuilder.Entity<Pharmacy_Medicine>().HasOne(m=>m.medicine).WithMany(pm => pm.pharmacy_medicine).HasForeignKey(p => p.Medicine_ID);
 
             base.OnModelCreating(modelBuilder);//Pass the Model Builder to the base class. (Important for Default Authentication Tables)
 
@@ -40,6 +40,9 @@ namespace MediEval.Data
         public DbSet<PharmacyBrand> PharmaBrands { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+        //Orders related tables
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
     }
 }

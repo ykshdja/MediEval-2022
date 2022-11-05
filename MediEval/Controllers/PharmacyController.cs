@@ -20,7 +20,7 @@ namespace MediEval.Controllers
             return View(data);
         }
 
-        //Get: Actors/Create
+        //Get: Pharmacy/Create
         public IActionResult Create()
         {
             return View();
@@ -37,7 +37,56 @@ namespace MediEval.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Get: Pharmacy/Details/id
+        public async Task<IActionResult> Details(int id)
+        {
+            var pharmacyDetails = await _service.GetByIdAsync(id);
 
+            if (pharmacyDetails == null) return View("NotFound");
+            return View(pharmacyDetails);
+        }
+
+        //Get: Pharmacy/Edit/1
+        public async Task<IActionResult> Edit(int id)
+        {
+            var pharmacyDetails = await _service.GetByIdAsync(id);
+            if (pharmacyDetails == null) return View("Not Found");
+            return View(pharmacyDetails);
+        }
+
+        //POST: Pharmacy/Edit
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,PharmName,PharmAddress,PharmPhone")] Pharmacy pharmacy)
+        {
+            
+            if(id == pharmacy.ID)
+            {
+                await _service.UpdateAsync(id, pharmacy);
+                return RedirectToAction(nameof(Index));
+            }
+           
+                return View(pharmacy);
+            
+
+        }
+
+        //Get: Pharmacy/Delete/1
+        public async Task<IActionResult> Delete(int id)
+        {
+            var pharmacyDetails = await _service.GetByIdAsync(id);
+            if (pharmacyDetails == null) return View("Not Found");
+            return View(pharmacyDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var pharmacyDetails = await _service.GetByIdAsync(id);
+            if (pharmacyDetails == null) return View("Not Found");
+
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }

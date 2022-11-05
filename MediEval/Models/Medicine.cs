@@ -8,34 +8,41 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using MediEval.Data.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
+using MediEval.Data.Base;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MediEval.Models
 {
-    public class Medicine
+    public class Medicine : IEntityBase
     {
         [Key]
-        public int MedicineID { get; set; }
+        [Required]
+        public int ID { get; set; } //medID
         [Required]
         public String Name { get; set; }
         [Required]
         public String Description { get; set; } 
         [Required]
         public int Quantity { get; set; }
+
         [Required]
-        public String Price { get; set; }
+        public double Price { get; set; }
         [Required]
         public bool InStock { get; set; }
         [Required]
         public string weight { get; set; }
-        
-        public String Img { get; set; }
+        [AllowNull]
+        public String? Img { get; set; }
 
         public MedicineCategory MedicineCategory { get; set; }
-        public List<Pharmacy_Medicine> pharmacy_medicine { get; set; }
-        public int pharmaBrandId { get; set; }
-        [ForeignKey("pharmaBrandId")]
-        public PharmacyBrand pharmaBrand { get; set; }
 
+        //Relationship
+        public List<Pharmacy_Medicine> pharmacy_medicine { get; set; }
+
+
+        [ForeignKey("pharmaBrandId")]
+        public int pharmaBrandId { get; set; }
+        public PharmacyBrand pharmaBrand { get; set; }
 
     }
 }

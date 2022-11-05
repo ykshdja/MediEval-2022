@@ -1,0 +1,114 @@
+﻿@model newMedicineViewModel
+@using MediEval.Data;
+@using MediEval.Data.Enums
+@using MediEval.Models;
+@using MediEval.Data.Services;
+ 
+@{
+    ViewData["Title"] = "Update Medicine ";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h4>Update Medicine</h4>
+        </p>
+
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                 <div class="form-group">
+                                <label asp-for="Img" class="control-label"></label>
+                                    <input asp-for="Img" class="form-control" />
+                                    <span asp-validation-for="Img" class="text-danger"></span>
+                            </div>
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Quantity" class="control-label"></label>
+                                <input asp-for="Quantity" type="number" class="form-control" />
+                                <span asp-validation-for="Quantity" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Price" class="control-label"></label>
+                                <input asp-for="Price" type="text" class="form-control" />
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" id="Instock" name="Instock" asp-for="InStock" value="true" checked>
+                                <label for="Instock" asp-for="InStock" class="control-label">In Stock</label><br />
+                                <span asp-validation-for="InStock" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="weight" class="control-label"></label>
+                                <input asp-for="weight" class="form-control" />
+                                <span asp-validation-for="weight" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label asp-for="pharmacyIds" class="control-label"></label>
+                                <select asp-for="pharmacyIds" class="form-control" asp-items="ViewBag.Pharmacy"></select>
+                                <span asp-validation-for="pharmacyIds" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="MedicineCategory" class="control-label"></label>
+                                <select asp-for="MedicineCategory" class="form-control" asp-items="Html.GetEnumSelectList<MedicineCategory>()"></select>
+                                <span asp-validation-for="MedicineCategory" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="pharmacyBrandId" class="control-label"></label>
+                                <select asp-for="pharmacyBrandId" class="form-control" asp-items="ViewBag.PharmacyBrands"></select>
+                                <span asp-validation-for="pharmacyBrandId" class="text-danger"></span>
+                            </div>
+                           
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 offset-4 text-center">
+                        <img width="100%" id="ImageUrlPreview" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById("ImageUrlPreview");
+            output.src = $("#ImageURL").val();
+        });
+
+        $("#ImageURL").on("change", function () {
+            var output = document.getElementById("ImageUrlPreview");
+            output.src = $(this).val();
+        })
+    </script>
+}

@@ -1,0 +1,77 @@
+﻿@model Medicine
+
+@{
+    ViewData["Title"] = "Medicine details";
+}
+
+<!doctype html>
+<html>
+    <head>
+
+    </head>
+    <body>
+   
+
+    <div class="row">
+        <div class="col-md-8 offset-2">
+            <div class="card mb-12">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-success">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                 @Model.Name
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="data:image/png;base64,@Model.Img" width="100%" alt="@Model.Name">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text">
+                               <h4><b>Brand: </b></h4>
+                                <a asp-controller="PharmacyBrand" asp-action="Details" asp-route-id="@Model.pharmaBrandId">
+                                    @Model.pharmaBrand.Name
+                                </a>
+                            </p>
+                            <p class="card-text"><h4><b>Price : </b>@Model.Price.ToString()</h4></p>
+                            <p class="card-text"><b>Quantity: </b>@Model.Quantity.ToString()</p>
+                            <p class="card-text"><b>Drug Class: </b>@Model.MedicineCategory</p>
+                            <p class="card-text"><b>Dosage Form: </b>@Model.pharmaBrand.DosageForm</p>
+                            <p class="card-text"><b>NDC Code: </b>@Model.pharmaBrand.NDC_Code</p>
+                            <p class="card-text">@Model.Description</p>
+                            <hr />
+                            <p class="card-text">
+                                <b>Pharmacy</b>
+                                <div class="row">
+                                    @foreach (var item in Model.pharmacy_medicine)
+                                    {
+                                        <div class="column">
+                                           <!-- <img class="border-info rounded-circle" src="" style="max-width: 150px" />-->
+                                            <a asp-controller="Pharmacy" asp-action="Details" asp-route-id="@item.Pharmacy_ID">@item.pharmacy.PharmName</a> <br>
+                                            <a asp-controller="Pharmacy" asp-action="Details" asp-route-id="@item.Pharmacy_ID">@item.pharmacy.PharmAddress</a>  <br>
+                                            <a asp-controller="Pharmacy" asp-action="Details" asp-route-id="@item.Pharmacy_ID">@item.pharmacy.PharmPhone</a> 
+                                        </div>
+                                    }
+                                </div>
+                            </p>                         
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-right" asp-action="Index">
+                                    Back
+                                </a>
+                            <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@Model.ID"><i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

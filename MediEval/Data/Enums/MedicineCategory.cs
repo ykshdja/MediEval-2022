@@ -22,7 +22,8 @@ namespace MediEval.Data.Enums
         Digestion,
         Vitamins,
         mobilityAid,
-        FitnessNutrition
+        FitnessNutrition,
+        antidepressants
 
     }
 }

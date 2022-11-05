@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.IO;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
@@ -17,13 +17,12 @@ namespace MediEval.Controllers.ImageUpload
             return View();
         }
         //[HttpPost]
-       /* public ActionResult UploadFiles(HttpPostedFileBase file)
+        public ActionResult UploadFiles(HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-
                     //Method 2 Get file details from HttpPostedFileBase class    
 
                     if (file != null)
@@ -38,7 +37,8 @@ namespace MediEval.Controllers.ImageUpload
                     ViewBag.FileStatus = "Error while file uploading."; ;
                 }
             }
-            return View("Index");*/
+            return View("Index");
         }
 }
 
+*/

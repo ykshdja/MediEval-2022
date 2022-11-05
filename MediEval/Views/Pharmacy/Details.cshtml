@@ -1,0 +1,43 @@
+﻿@model Pharmacy
+
+@{
+    ViewData["Title"] = "Pharmacy Details";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Details for @Model.PharmName</h1>
+        </p>
+        <div class="row">
+            <form asp-action="Edit" asp-controller="Pharmacy" method="post">
+            <div class="col-md-8 offset-2">
+                
+                <div class="form-group">
+                    <label asp-for="PharmName" class="control-label"></label>
+                    <input asp-for="PharmName" class="form-control" readonly />
+                    <span asp-validation-for="PharmName" class="text-danger"></span>
+                </div>
+                &nbsp;
+                <div class="form-group">
+                    <label asp-for="PharmAddress" class="control-label"></label>
+                    <input asp-for="PharmAddress" class="form-control" readonly />
+                    <span asp-validation-for="PharmAddress" class="text-danger"></span>
+                </div>
+                &nbsp;
+                <div class="form-group">
+                    <label asp-for="PharmPhone" class="control-label"></label>
+                    <input asp-for="PharmPhone" class="form-control" readonly />
+                    <span asp-validation-for="PharmPhone" class="text-danger"></span>
+                </div>
+                &nbsp;
+
+                <div class="form-group">
+                    <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+

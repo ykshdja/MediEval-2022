@@ -12,11 +12,11 @@ namespace MediEval.Models
     public class Order
     {
         [Key]
-        public int OrderId { get; set; }
-        public int? PrescriptionId { get; set; } 
-        public int MedicineId { get; set; }
-        public DateTime Date { get; set; }
-        public int Amount { get; set; }
-        public double OrderCost { get; set; }
+        public int Id { get; set; }
+
+        public string Email { get; set; }
+        public string UserId { get; set; }
+
+        public List<OrderItem> OrderItems { get; set; }
     }
 }
