@@ -1,9 +1,13 @@
 ﻿using MediEval.Data.Services;
+using MediEval.Data.Static;
 using MediEval.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace MediEval.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class PharmacyBrandController : Controller
     {
         private readonly IPharmacyBrandService _service;
@@ -12,6 +16,8 @@ namespace MediEval.Controllers
         {
             _service = service;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var allPharmacyBrands = await _service.GetAllAsync();
@@ -19,6 +25,8 @@ namespace MediEval.Controllers
         }
 
         //GET: PharmacyBrand/details/1
+
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var pharmacyBrandDetails = await _service.GetByIdAsync(id);

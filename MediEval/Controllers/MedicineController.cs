@@ -5,9 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using MediEval.Data.Static;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MediEval.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class MedicineController : Controller
     {
         
@@ -17,13 +21,14 @@ namespace MediEval.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var allMedicine = await _service.GetAllAsync(n => n.pharmaBrand);
             return View(allMedicine);
         }
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchString)
         {
             var medicineFilter = await _service.GetAllAsync(n => n.pharmaBrand);
@@ -39,6 +44,7 @@ namespace MediEval.Controllers
 
 
         //GET: Medicines/Details/1
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var medicineDetails = await _service.GetMedicineByIdAsync(id);

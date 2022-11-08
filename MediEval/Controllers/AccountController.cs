@@ -4,6 +4,7 @@ using MediEval.Data.ViewModel;
 using MediEval.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediEval.Controllers
 {
@@ -25,6 +26,14 @@ namespace MediEval.Controllers
         {
             return View();
         }
+
+
+        public async Task<IActionResult> Users()
+        {
+            var users = await _context.Users.ToListAsync(); //Only By Admin
+            return View(users);
+        }
+
 
         public IActionResult Login() => View(new LoginViewModel());
 
@@ -94,7 +103,10 @@ namespace MediEval.Controllers
             return RedirectToAction("Index", "Medicine");
         }
 
-
+        public IActionResult AccessDenied(string ReturnUrl)
+        {
+            return View();
+        }
 
     }
 }

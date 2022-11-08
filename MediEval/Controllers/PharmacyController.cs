@@ -1,10 +1,15 @@
 ﻿using MediEval.Data;
 using MediEval.Data.Services;
+using MediEval.Data.Static;
 using MediEval.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace MediEval.Controllers
 {
+
+    [Authorize(Roles = UserRoles.Admin)]
     public class PharmacyController : Controller
     {
 
@@ -14,6 +19,7 @@ namespace MediEval.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var data = await _service.GetAllAsync();
@@ -38,6 +44,7 @@ namespace MediEval.Controllers
         }
 
         //Get: Pharmacy/Details/id
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var pharmacyDetails = await _service.GetByIdAsync(id);
@@ -87,6 +94,8 @@ namespace MediEval.Controllers
             await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+
 
     }
 }

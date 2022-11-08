@@ -3,6 +3,11 @@
 <head>
     <style>
 
+.header-background{
+        background: rgb(252,252,252);
+        background: linear-gradient(90deg, rgba(252,252,252,1) 29%, rgba(158,187,150,1) 65%, rgba(73,127,58,1) 99%, rgba(149,184,129,0.9951330874146533) 100%, rgba(53,113,36,1) 100%);
+
+}
      
         #navbar-div{
             background: #1e5100;
@@ -116,19 +121,8 @@
 </head>
 <body>
     <header>
-        <div>
-            <div class ="d-flex justify-content-start">
-                <span><img src="~/Images/logo.png" alt="Medi-Eval Logo" /></span>
-            </div>
-            <div class="d-flex justify-content-end">
-                <form class="form-inline my-2 my-lg-0" asp-controller="Medicine" asp-action="Filter" style="padding-right: 45px;">
-                    <input name="searchString" type="text" class="form-control" placeholder="Search for a Medicine " aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
-                        <i class="bi bi-search"></i>
-                        </button>
-                </form>
-            </div>
-         
+        <div class="header-background">
+            <span><img src="~/Images/logo.png" alt="Medi-Eval Logo" /></span>
         </div>
        
         <div id="navbar-div">
@@ -158,20 +152,24 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">CONTACT US</a>
                             </li>
-                            <!--DROP DOWN-->
-                            <li class="nav-item dropdown"> 
-                                <div class="dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-gear"></i> Management
-                                    </a>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <!--DROP DOWN-->
+                                <li class="nav-item dropdown">
+                                    <div class="dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-gear"></i> Management
+                                        </a>
 
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a class="dropdown-item" asp-controller="Medicine" asp-action="Index"><i class="bi bi-capsule-pill"></i> Medicine</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Pharmacy" asp-action="Index"><i class="bi bi-prescription"></i> Pharmacy</a></li>
-                                        <li><a class="dropdown-item" asp-controller="PharmacyBrand" asp-action="Index"><i class="bi bi-bag-plus-fill"></i> Brands</a></li>
-                                    </ul>
-                                </div>
-                            </li>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li><a class="dropdown-item" asp-controller="Medicine" asp-action="Index"><i class="bi bi-capsule-pill"></i> Medicine</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Pharmacy" asp-action="Index"><i class="bi bi-prescription"></i> Pharmacy</a></li>
+                                            <li><a class="dropdown-item" asp-controller="PharmacyBrand" asp-action="Index"><i class="bi bi-bag-plus-fill"></i> Brands</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                           
                             
 
                         </ul>
@@ -182,26 +180,10 @@
 
                         <partial name="_Identity.cshtml" />
 
-                        <div class="login-btn">
-                            <a class="btn btn-outline-light my-2 my-sm-0" asp-controller="Account" asp-action="Login">
-                                <i class="bi bi-box-arrow-in-right"></i> Log in
-                            </a>
-
-                            <a class="btn btn-outline-light my-2 my-sm-0" asp-controller="Account" asp-action="Register">
-                                <i class="bi bi-person-plus"></i> Register
-                            </a>
-
-
-                        </div>
+                        
 
                         <span style="padding: 5px;"></span>
 
-                        @*User profile section*@
-                        <div class="dropdown">
-                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown"
-                                    aria-expanded="false">
-                                <i class="bi bi-person-badge"></i> Hello User
-                            </button>
                             <ul class="dropdown-menu" aria-labelledby="profile-btn">
                                 <li>
                                     <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
@@ -210,24 +192,21 @@
                                 </li>
                             </ul>
                         </div>
-                        
-                        @**
-                            Log out
-                        **@
-
-                        <span style="padding: 5px;"></span>
-                        <form asp-controller="Account" asp-action="Logout">
-                            <button class="btn btn-outline-danger my-2 my-sm-0">
-                                <i class="bi bi-box-arrow-in-right"></i> Log out
-                            </button>
-                        </form>
-
-
                     </div>
                 </div>
             </nav>
         </div>
     </header>
+    <div class="d-block p-2 bg-light text-white" style="margin:50px;margin-left:350px; margin-right:350px;" >
+        <form class="form-inline" asp-controller="Medicine" asp-action="Filter" style="padding-right: 45px;">
+            <span class="input-group">
+                <input name="searchString" type="text" class="form-control" placeholder="Search for a Medicine " aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+            </span>
+        </form>
+    </div>
+
+
     <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -243,6 +222,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+   
 </body>
 
 </html>
