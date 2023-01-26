@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using MediEval.Hubs;
 
 namespace MediEval.Data
 {
@@ -31,7 +32,7 @@ namespace MediEval.Data
             base.OnModelCreating(modelBuilder);//Pass the Model Builder to the base class. (Important for Default Authentication Tables)
 
         }
-
+        public DbSet<Message> Messages { get; set; }
         public DbSet<Pharmacy> Pharmacies { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
 

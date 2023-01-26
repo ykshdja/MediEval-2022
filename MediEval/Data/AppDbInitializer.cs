@@ -12,10 +12,23 @@ namespace MediEval.Data
 {
     public class AppDbInitializer
     {
-        public static void Seed(IApplicationBuilder applicationBuilder)
+
+        private static async Task<String> FileToBase64(String filePath)
+        {
+            var memorycopy = new MemoryStream();
+            await File.OpenRead(filePath).CopyToAsync(memorycopy);
+            var imgBase64 = memorycopy.ToArray();
+            return Convert.ToBase64String(imgBase64);
+
+        }
+        public static async void Seed(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
+
+                var hostingEnvironment = serviceScope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+                
+
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
                 _ = context.Database.EnsureCreated();
@@ -81,7 +94,7 @@ namespace MediEval.Data
                         new Medicine()
                         {
                             Name = "Neomycin",
-                            Img = "~/images/neosporin.jpg",
+                            Img = await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the first",
                             Quantity = 144,
                             weight = "0.9mg",
@@ -92,7 +105,7 @@ namespace MediEval.Data
                         new Medicine()
                         {
                             Name = "Paracetamol",
-                            Img = "~/images/neosporin.jpg",
+                            Img =  await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the Second",
                             Quantity = 144,
                             weight = "0.9mg",
@@ -103,7 +116,7 @@ namespace MediEval.Data
                         new Medicine()
                         {
                             Name = "Aspirin",
-                            Img = "~/images/neosporin.jpg",
+                            Img = await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the Third",
                             Quantity = 125,
                             weight = "325mg",
@@ -114,7 +127,7 @@ namespace MediEval.Data
                         new Medicine()
                         {
                             Name = "Desitin - Rash Cream",
-                            Img = "~/images/neosporin.jpg",
+                            Img = await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the Desitin",
                             Quantity = 1,
                             weight = "4oz",
@@ -125,7 +138,7 @@ namespace MediEval.Data
                         new Medicine()
                         {
                             Name = "Citracal",
-                            Img = "~/images/neosporin.jpg",
+                            Img = await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the first cinema",
                             Quantity = 100,
                             weight = "400mg",

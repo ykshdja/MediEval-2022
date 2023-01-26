@@ -10,6 +10,7 @@ namespace MediEval.Data.ViewModel
     public class RegisterViewModel
     {
         [Display(Name = "Full name")]
+        [StringLength(255)]
         [Required(ErrorMessage = "Full name is required")]
         public string FullName { get; set; }
 
@@ -17,9 +18,12 @@ namespace MediEval.Data.ViewModel
         [Required(ErrorMessage = "Email address is required")]
         public string EmailAddress { get; set; }
 
+
         [Required]
         [DataType(DataType.Password)]
+        [Compare("ConfirmPassword")]
         public string Password { get; set; }
+
 
         [Display(Name = "Confirm password")]
         [Required(ErrorMessage = "Confirm password is required")]
