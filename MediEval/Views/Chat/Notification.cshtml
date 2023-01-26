@@ -1,0 +1,71 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .notification-menu {
+            padding: 10px 65px;
+            margin-top: 2px;
+            cursor: pointer;
+            white-space: nowrap;
+            background-color: white !important;
+            outline-color: black;
+            border-bottom: 1px solid #eee;
+        }
+
+        
+
+       #left{float:left;width:100px;}
+
+
+    </style>
+    <link rel="stylesheet" href="style.css">
+   
+</head>
+<body>
+    <div class="card text-center">
+        <div class="card-header">
+            <h3>Notifications</h3>
+        </div>
+        <div class="card-body" style="margin:50px;">
+            <h5 class="card-title">Chat with a Pharmacist</h5>
+            <p class="card-text">Chat with a Pharmacy Professional is currently available 24 hours a day, 7 days a week. Based on demand, there may be a short wait, but a pharmacy professional will be with you as quickly as possible. 
+                If you have an urgent question or do not want to wait for a pharmacy staff member to become available, contact any Walgreens pharmacy.</p
+        <div class="notification-content">
+        <div class="container" style="margin:50px;">
+           <div class="row pt-3">
+            <div class="col-6">
+                <input type="text" class="form-control" id="notificationInput" autocomplete="off" />
+
+            </div>
+            <div class="col-3">
+                <input type="button" class="btn btn-outline-success form-control" id="sendButton" value="Send Message" />
+            </div>
+          </div>
+        </div>  
+        
+    <div class="nav-item dropdown" id="left">
+
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span id="notificationBell"> <i class="bi bi-bell"></i><span id="notificationCounter"></span></span>
+        </a>
+        <ul class="dropdown-menu notification-menu" id="messageList" aria-labelledby="navbarDropdown">
+        </ul>
+    </div>
+
+
+    </div>
+    </div>
+        <div class="card-footer text-muted">
+            2 minutes Ago
+        </div>
+    </div>
+
+
+</body>
+ <script src="~/js/signalr.js"></script>
+    <script src="~/js/notification.js" asp-append-version="true"></script>
+</html>

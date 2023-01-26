@@ -1,0 +1,226 @@
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Pharmacy chat";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+      
+        .border-top {
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .box-shadow {
+            box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+        }
+
+        button.accept-policy {
+            font-size: 1rem;
+            line-height: inherit;
+        }
+
+        body{
+            margin-top:10px;
+            margin-bottom: 170px;
+           
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            white-space: nowrap;
+            line-height: 60px; /* Vertically center the text there */
+        }
+        .div-msg{
+            margin:60px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            width: 5px;
+            background: #f5f5f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            width: 1em;
+            background-color: #ddd;
+            outline: 1px solid slategrey;
+            border-radius: 1rem;
+        }
+
+        .text-small {
+            font-size: 0.9rem;
+        }
+
+        .messages-box,
+        .chat-box {
+            height: 510px;
+            overflow-y: scroll;
+        }
+
+        .rounded-lg {
+            border-radius: 0.5rem;
+        }
+
+        input::placeholder {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+
+        #card-msg{
+         margin:20px;
+
+        }
+       
+      
+    </style>
+</head>
+<body>
+
+    <div class="card border-success" id="card-msg" >
+        <div class="card-header"><h4>Ask MediEval</h4></div>
+        <div class="card-body text-dark">
+            <h5 class="card-title">Connect to a Pharmacist</h5>
+            <p class="card-text">Ask MediEval provides the opportunity to ask registered pharmacist questions about your prescriptions and medication interactions.</p>
+            <div class="row">&nbsp;</div>
+        </div>
+
+        <div class="text-center">
+            <h1 class="display-4" style="color:#015e11;"><strong>Chat with a Pharmacist</strong></h1>
+        </div>
+        <div class="div-msg">
+            
+
+            <div class="row rounded-lg overflow-hidden shadow">
+                <div class="col-5 px-0">
+                    <div class="bg-white">
+                        <div class="bg-gray px-4 py-2 bg-light">
+                            <p class="h5 mb-0 py-1">Connections</p>
+                        </div>
+
+                        <div class="messages-box">
+                            <div id="chatUsers" class="list-group rounded-0"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-7 px-0">
+                    <div id="chatRoom" class="px-4 py-5 chat-box bg-white">
+                    </div>
+
+
+                    <div class="input-group" id="type-msg">
+                        <input id="messageInput" type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light" />
+                        <button id="sendButton" type="button" class="btn btn-link"><i class="fa fa-paper-plane"></i></button>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+
+
+
+
+</body>
+
+@*<script src="~/lib/jquery/dist/jquery.js"></script>*@
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/signalr.js"></script>
+
+<script type="text/javascript">
+    const userid = '@User.FindFirst(ClaimTypes.NameIdentifier)';
+ </script>
+
+<script src="~/js/chat.js"></script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+   <div class="container col-md-6">
+       <div class="card border-success">
+           <div class="card-header"><h4>Ask MediEval</h4></div>
+           <div class="card-body text-dark">
+               <h5 class="card-title">Connect to a Pharmacist</h5>
+               <p class="card-text">Ask MediEval provides the opportunity to ask registered pharmacist questions about your prescriptions and medication interactions.</p>
+               <div class="row">&nbsp;</div>
+               <div class="row">
+                   <div class="col h5">Sender</div>
+                   <div class="col-10"><input type="text" class="form-control" value="@User.Identity.Name" id="senderEmail" /></div>
+               </div>
+               <div class="row">
+                   <div class="col-2 h5">Receiver</div>
+                   <div class="col-10"><input type="text" class="form-control" id="receiverEmail" /></div>
+               </div>
+               <div class="row">
+                   <div class="col-2 h5">Message</div>
+                   <div class="col-10"><textarea class="form-control" id="chatMessage" rows="3"></textarea></div>
+               </div>
+               <div class="row">&nbsp;</div>
+               <div class="row">
+                   <div class="col-6">
+                       <input type="button" class="btn btn-outline-success" id="sendMessage" value="Send Message" />
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-12">
+                       <hr />
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-6">
+                       <div class="list-group">
+                           <div class="d-flex w-100 justify-content-between list-group-item list-group-item-action flex-column align-items-start ">
+                                   <h5 class="mb-1">Messages</h5>
+                               <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                   <p class="mb-1"><ul id="messagesList"></ul></p>
+                                   </div>
+                                   <small>5 min ago</small>
+                               </div>
+
+                           </div>
+
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   -->

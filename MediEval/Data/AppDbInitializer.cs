@@ -5,15 +5,30 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Grpc.Core;
+using Microsoft.AspNetCore.Identity;
+using MediEval.Data.Static;
 
 namespace MediEval.Data
 {
     public class AppDbInitializer
     {
-        public static void Seed(IApplicationBuilder applicationBuilder)
+
+        private static async Task<String> FileToBase64(String filePath)
+        {
+            var memorycopy = new MemoryStream();
+            await File.OpenRead(filePath).CopyToAsync(memorycopy);
+            var imgBase64 = memorycopy.ToArray();
+            return Convert.ToBase64String(imgBase64);
+
+        }
+        public static async void Seed(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
+
+                var hostingEnvironment = serviceScope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+                
+
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
                 _ = context.Database.EnsureCreated();
@@ -25,32 +40,42 @@ namespace MediEval.Data
                     {
                         new PharmacyBrand()
                         {
-                            Name = "NeoSporin",
-                            Description = null
+                            Name = "Johnson & Johnson",
+                            DosageForm = "Cream",
+                            NDC_Code = "58232-4002-9",
+                            category = MedicineCategory.PainReliever
 
                         },
                         new PharmacyBrand()
                         {
                             Name = "Advil",
-                            Description = null
+                            DosageForm = "Tablet, Oral-Capsule",
+                            NDC_Code = "66715-9700-2",
+                            category = MedicineCategory.PainReliever
 
                         },
                         new PharmacyBrand()
                         {
                             Name = "Bayer",
-                            Description = null
+                            DosageForm = "Tablet, Oral-Capsule",
+                            NDC_Code = "66715-9700-2",
+                            category = MedicineCategory.Vitamins
 
                         },
                         new PharmacyBrand()
                         {
-                            Name = "Desitin",
-                            Description = null
+                            Name = "Desyrel",
+                            DosageForm = "Tablet, Oral-Capsule - 150 mg",
+                            NDC_Code = "66715-9700-2",
+                            category = MedicineCategory.antidepressants
 
                         },
                         new PharmacyBrand()
                         {
-                            Name = "Bayer",
-                            Description = null
+                            Name = "Protonix",
+                            DosageForm = "Oral, Infusion ",
+                            NDC_Code = "66715-9700-2",
+                            category = MedicineCategory.Digestion
 
                         },
 
@@ -69,55 +94,55 @@ namespace MediEval.Data
                         new Medicine()
                         {
                             Name = "Neomycin",
-                            Img = "~/images/neosporin.jpg",
+                            Img = await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the first",
                             Quantity = 144,
                             weight = "0.9mg",
-                            Price = "$16.57",
+                            Price = 16.57,
                             MedicineCategory = MedicineCategory.PainReliever,
                             pharmaBrand = brands[0],
                         },
                         new Medicine()
                         {
                             Name = "Paracetamol",
-                            Img = "~/images/neosporin.jpg",
+                            Img =  await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the Second",
                             Quantity = 144,
                             weight = "0.9mg",
-                            Price = "$16.57",
+                            Price = 16.57,
                             MedicineCategory = MedicineCategory.PainReliever,
                             pharmaBrand = brands[1],
                         },
                         new Medicine()
                         {
                             Name = "Aspirin",
-                            Img = "~/images/neosporin.jpg",
+                            Img = await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the Third",
                             Quantity = 125,
                             weight = "325mg",
-                            Price = "$7.99",
+                            Price = 7.99,
                             MedicineCategory = MedicineCategory.PainReliever,
                             pharmaBrand = brands[2],
                         },
                         new Medicine()
                         {
                             Name = "Desitin - Rash Cream",
-                            Img = "~/images/neosporin.jpg",
+                            Img = await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the Desitin",
                             Quantity = 1,
                             weight = "4oz",
-                            Price = "$6.55",
+                            Price = 6.55,
                             MedicineCategory = MedicineCategory.SkinCare,
                             pharmaBrand = brands[3],
                         },
                         new Medicine()
                         {
                             Name = "Citracal",
-                            Img = "~/images/neosporin.jpg",
+                            Img = await FileToBase64(Path.Combine(hostingEnvironment.WebRootPath,"images/neosporin.jpg")),
                             Description = "This is the description of the first cinema",
                             Quantity = 100,
                             weight = "400mg",
-                            Price = "$7.60",
+                            Price = 7.60,
                             MedicineCategory = MedicineCategory.Vitamins,
                             pharmaBrand = brands[4],
                         },
@@ -212,5 +237,71 @@ namespace MediEval.Data
                 
             }
         }
+
+
+        /**
+         ******************************************************************************* 
+         * SEEDING IDENTITY DATABASE / USER ROLES 
+         *******************************************************************************
+         * **/
+
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+
+                //Roles
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+                //Users
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                string adminUserEmail = "admin@medieval.com";
+
+                var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                if (adminUser == null)
+                {
+                    var newAdminUser = new ApplicationUser()
+                    {
+                        FullName = "Admin User",
+                        UserName = "admin-user",
+                        Email = adminUserEmail,
+                        EmailConfirmed = true
+                    };
+                    await userManager.CreateAsync(newAdminUser, "newAdmin@mediEval1234?");  //password
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+
+
+                string appUserEmail = "user@medieval.com";
+
+                var appUser = await userManager.FindByEmailAsync(appUserEmail);
+                if (appUser == null)
+                {
+                    var newAppUser = new ApplicationUser()
+                    {
+                        FullName = "Application User",
+                        UserName = "app-user",
+                        Email = appUserEmail,
+                        EmailConfirmed = true
+                    };
+                    await userManager.CreateAsync(newAppUser, "newUser@mediEval1234?");
+                    await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
+                }
+            }
+        }
+
+
+
+
+        /*******************************************************************************/
+
+
+
+
     }
 }

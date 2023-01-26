@@ -1,0 +1,53 @@
+﻿@model PharmacyBrand
+
+@{
+    ViewData["Title"] = "Add a New Pharmacy Brand";
+}
+
+<form>
+</form>
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Add a New Pharmacy Brand</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="create" asp-controller="PharmacyBrand" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group text-center">
+                        <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DosageForm" class="control-label"></label>
+                        <input asp-for="DosageForm" class="form-control" />
+                        <span asp-validation-for="DosageForm" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NDC_Code" class="control-label"></label>
+                        <input asp-for="NDC_Code" class="form-control" />
+                        <span asp-validation-for="NDC_Code" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="category" class="control-label"></label>
+                        <input asp-for="category" class="form-control" />
+                        <span asp-validation-for="category" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-outline-success float-right" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                    </div>
+                </form>
+                   
+            </div>
+        </div>
+    </div>
+</div>
+

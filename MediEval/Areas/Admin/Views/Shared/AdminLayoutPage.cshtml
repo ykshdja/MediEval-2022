@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+
+        .header-background {
+            background: rgb(254,254,254);
+            background: linear-gradient(90deg, rgba(254,254,254,1) 20%, rgba(33,105,53,1) 77%, rgba(0,75,21,1) 100%);
+        }
+
+        #navbar-div {
+            background: rgb(254,254,254);
+            background: linear-gradient(90deg, rgba(254,254,254,1) 20%, #015e11);
+            padding: 17px;
+            margin-bottom: 50px;
+        }
+
+        .navbar-inverse {
+            background: transparent;
+        }
+
+            .navbar-inverse .navbar-toggle {
+                background-color: seagreen;
+                background: white;
+                border: groove;
+            }
+
+                .navbar-inverse .navbar-toggle .icon-bar {
+                    /*background-color: #A43E89;*/
+                }
+
+                .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+                    background: #95b881;
+                }
+
+            .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+                color: #1e5100;
+                background: #95b881;
+                border-radius: 10px;
+            }
+
+            .navbar-inverse .navbar-toggle:hover .icon-bar {
+                background: #1e5100;
+            }
+
+        .navbar-toggle {
+        }
+
+        .input-group {
+            text-align: right;
+        }
+
+
+
+        body {
+            background: #ddd;
+            margin-bottom: 50px;
+        }
+
+        .form-control-borderless {
+            border: none;
+        }
+
+            .form-control-borderless:focus {
+                border: none;
+                outline: none;
+                box-shadow: none;
+            }
+
+            .form-control-borderless:hover {
+                border: none;
+                outline: none;
+                box-shadow: none;
+            }
+
+            .form-control-borderless:active {
+                border: none;
+                outline: none;
+                box-shadow: none;
+            }
+
+
+        .shopsymbol {
+            text-align: right;
+        }
+
+        .login-btn {
+            margin-right: 10px;
+        }
+    </style>
+    <script></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] MediEval</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="icon" href="~/Images/icon-title.png" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MediEval.styles.css" asp-append-version="true" />
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <header>
+        <div class="header-background">
+            <span><img src="~/Images/logo.png" alt="Medi-Eval Logo" /></span>
+        </div>
+
+        <div id="navbar-div">
+            <nav class="navbar navbar-inverse navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                        <span><img src="~/Images/icon2copy.png" alt="Medi-Eval Logo" /></span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">HOME</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Medicine" asp-action="Index">SHOP</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">SERVICES</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="AboutUs">ABOUT US</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="ContactUs">CONTACT US</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a asp-controller="User" asp-action="Index"
+                                   class="nav-link text-dark" asp-area="Admin">
+                                    Manage Users
+                                </a>
+                            </li>
+
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <!--DROP DOWN-->
+                                <li class="nav-item dropdown">
+                                    <div class="dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-gear"></i> Management
+                                        </a>
+
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Medicine" asp-action="Index"><i class="bi bi-capsule-pill"></i> Medicine</a></li>
+                                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Pharmacy" asp-action="Index"><i class="bi bi-prescription"></i> Pharmacy</a></li>
+                                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="PharmacyBrand" asp-action="Index"><i class="bi bi-bag-plus-fill"></i> Brands</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+
+                        </ul>
+
+                        <ul class="navbar-nav">
+                            @*@await Component.InvokeAsync("ShoppingCartSummary")*@
+                        </ul>
+
+                        @*<partial name="_Identity.cshtml" />*@
+
+                        <span style="padding: 5px;"></span>
+
+                        <ul class="dropdown-menu" aria-labelledby="profile-btn">
+                            <li>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Orders" asp-action="Index">
+                                    <i class="bi bi-list"></i> Orders
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+        </nav>
+        </div>
+    </header>
+    <div class="d-block p-2 bg-light text-white" style="margin:50px;margin-left:350px; margin-right:350px;">
+        <form class="form-inline" asp-controller="Medicine" asp-action="Filter" asp-area="Admin" style="padding-right: 45px;">
+            <span class="input-group">
+                <input name="searchString" type="text" class="form-control" placeholder="Search for a Medicine " aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+            </span>
+        </form>
+    </div>
+
+
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - MediEval - <a asp-area="Admin" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+</body>
+
+</html>

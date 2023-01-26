@@ -2,40 +2,41 @@
 <html lang="en">
 <head>
     <style>
-     
-        #navbar-div{
-            background: #1e5100;
-            background: linear-gradient(90deg, rgba(252,252,252,1) 0%, rgba(232,243,229,1) 40%, rgba(30,81,0,0.9951330874146533) 100%);
+
+        .header-background {
+            background: rgb(254,254,254);
+            background: linear-gradient(90deg, rgba(254,254,254,1) 20%, rgba(33,105,53,1) 77%, rgba(0,75,21,1) 100%);
+        }
+
+        #navbar-div {
+            background: rgb(254,254,254);
+            background: linear-gradient(90deg, rgba(254,254,254,1) 20%, #015e11);
             padding: 17px;
-            margin-bottom:50px;
+            margin-bottom: 50px;
         }
 
         .navbar-inverse {
             background: transparent;
-           
         }
 
             .navbar-inverse .navbar-toggle {
                 background-color: seagreen;
                 background: white;
-                border:groove;
+                border: groove;
             }
 
                 .navbar-inverse .navbar-toggle .icon-bar {
                     /*background-color: #A43E89;*/
-                    
                 }
 
                 .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
                     background: #95b881;
-    
                 }
 
             .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
                 color: #1e5100;
                 background: #95b881;
                 border-radius: 10px;
-                
             }
 
             .navbar-inverse .navbar-toggle:hover .icon-bar {
@@ -45,7 +46,7 @@
         .navbar-toggle {
         }
 
-        .input-group{
+        .input-group {
             text-align: right;
         }
 
@@ -53,6 +54,7 @@
 
         body {
             background: #ddd;
+            margin-bottom: 75px;
         }
 
         .form-control-borderless {
@@ -76,28 +78,23 @@
                 outline: none;
                 box-shadow: none;
             }
+
+
+        .shopsymbol {
+            text-align: right;
+        }
+
+        .login-btn {
+            margin-right: 10px;
+        }
+
     </style>
-    <script>
-        
-        const basicAutocomplete = document.querySelector('#search-autocomplete');
-        const data = ['One', 'Two', 'Three', 'Four', 'Five'];
-        const dataFilter = (value) => {
-            return data.filter((item) => {
-                return item.toLowerCase().startsWith(value.toLowerCase());
-            });
-        };
-
-        new mdb.Autocomplete(basicAutocomplete, {
-            filter: dataFilter
-        });
-
-
-    </script>
+    <script></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] MediEval</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="icon" href="~/Images/icon.png" type="image/x-icon">
+    <link rel="icon" href="~/Images/icon-title.png" type="image/x-icon">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MediEval.styles.css" asp-append-version="true" />
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
@@ -105,14 +102,15 @@
 </head>
 <body>
     <header>
-        <div style="margin-left:50px">
+        <div class="header-background">
             <span><img src="~/Images/logo.png" alt="Medi-Eval Logo" /></span>
         </div>
+
         <div id="navbar-div">
             <nav class="navbar navbar-inverse navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
                 <div class="container-fluid">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        <span><img  src="~/Images/icon2copy.jpg" alt="Medi-Eval Logo"/></span>
+                        <span><img src="~/Images/icon2copy.png" alt="Medi-Eval Logo" /></span>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -124,60 +122,101 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">HOME</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">SHOP</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Medicine" asp-action="Index">SHOP</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">SERVICES</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">ABOUT US</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">ABOUT US</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">CONTACT US</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ContactUs">CONTACT US</a>
                             </li>
-                            <!--DROP DOWN-->
-                            <li class="nav-item dropdown"> 
-                                <div class="dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-gear"></i> Management
-                                    </a>
 
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a class="dropdown-item" asp-controller="Medicine" asp-action="Index"><i class="bi bi-capsule-pill"></i> Medicine</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Pharmacy" asp-action="Index"><i class="bi bi-prescription"></i> Pharmacy</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Order" asp-action="Index"><i class="bi bi-box-seam-fill"></i> Orders</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            
+
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <!--DROP DOWN-->
+                                <li class="nav-item dropdown">
+                                    <div class="dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-gear"></i> Management
+                                        </a>
+
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li><a class="dropdown-item" asp-controller="Medicine" asp-action="Index"><i class="bi bi-capsule-pill"></i> Medicine</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Pharmacy" asp-action="Index"><i class="bi bi-prescription"></i> Pharmacy</a></li>
+                                            <li><a class="dropdown-item" asp-controller="PharmacyBrand" asp-action="Index"><i class="bi bi-bag-plus-fill"></i> Brands</a></li>
+                                            <li>
+                                                <a class="dropdown-item" asp-area="Admin" asp-route-myparam="121345" asp-controller="User" asp-action="Index">
+                                                    <i class="bi bi-person-circle"></i>
+                                                    Manage Users
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
 
                         </ul>
 
-                        <form class="form-inline my-2 my-lg-0" asp-controller="Home" asp-action="Filter" style="padding-right: 25px;">
-                            <input name="searchString" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
-                         
-                        </form>
-                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                        <ul class="navbar-nav">
+                            @await Component.InvokeAsync("ShoppingCartSummary")
+                        </ul>
+
+                        <partial name="_Identity.cshtml" />
+
+                        <span style="padding: 5px;"></span>
+
+                        <ul class="dropdown-menu" aria-labelledby="profile-btn">
+                            <li>
+                                <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
+                                    <i class="bi bi-list"></i> Orders
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                  
                 </div>
-            </nav>
+        </div>
+        </nav>
         </div>
     </header>
+    <div class="d-block p-2 bg-light text-white" style="margin:50px;margin-left:350px; margin-right:350px;">
+        <form class="form-inline" asp-controller="Medicine" asp-action="Filter" style="padding-right: 45px;">
+            <span class="input-group">
+                <input name="searchString" type="text" class="form-control" placeholder="Search for a Medicine " aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+            </span>
+        </form>
+    </div>
+
+
     <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="container ">
             &copy; 2022 - MediEval - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+
+
+
+    <!--------------------SCRIPT------------------------------->
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+    @RenderSection("Scripts",false)
+
+    <!--------------SCRIPT------------------------------------>
+
 </body>
+
 </html>
